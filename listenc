@@ -9,5 +9,5 @@ handler()
 
 while :
 do
-  ncat -l $netchat_ipv4 $netchat_port | handler
+  ncat -l $netchat_ipv4 12345 | handler
 done
