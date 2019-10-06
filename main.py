@@ -6,10 +6,12 @@ import threading
 print("Welcome to NetChat!")
 
 port = 12345
-os.system(f"netchat_port={port}")
+os.environ["netchat_port"] = str(port)
+
 
 username = input("Choose a username: ")
-os.system(f"netcat_username={username}")
+os.environ["netcat_username"] = username
+
 
 def get_host_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -36,7 +38,8 @@ host_ipv4_address = host_ip_address
 
 print("HOST_IPV4_ADDRESS", host_ipv4_address)
 
-os.system(f"netchat_ipv4={host_ipv4_address}")
+os.environ["netchat_ipv4"] = host_ipv4_address
+
 
 
 def listen():

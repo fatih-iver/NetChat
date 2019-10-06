@@ -4,7 +4,7 @@ handler()
 {
   read IN
   echo $IN >> log.txt
-  python3 handler.py "$IN"
+  python3.7 handler.py "$IN"
 }
 
 while :
