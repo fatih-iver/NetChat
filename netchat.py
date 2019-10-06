@@ -55,7 +55,7 @@ def announce():
     for i in range(10):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 1 {target_ipv4_address} 12345") # 2>/dev/null
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -vvv -w 1 {target_ipv4_address} 12345") # 2>/dev/null
 
 
 last_announcement_time = datetime.datetime.now()
