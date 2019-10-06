@@ -1,0 +1,13 @@
+#!/bin/bash
+
+handler()
+{
+  read IN
+  echo $IN >> log.txt
+  python3 handler.py "$IN"
+}
+
+while :
+do
+  ncat -l $netchat_ipv4 $netchat_port | handler
+done

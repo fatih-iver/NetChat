@@ -1,0 +1,6 @@
+#!/bin/bash
+echo [fiver, 127.0.0.1, announce] | ncat localhost 12345
+sleep 1
+echo [fiver, 127.0.0.1, response] | ncat localhost 12345
+sleep 1
+echo [fiver, 127.0.0.1, message, 'hello'] | ncat localhost 12345
