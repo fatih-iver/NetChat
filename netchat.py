@@ -58,8 +58,9 @@ def announce():
             os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.1 {target_ipv4_address} 12345 2>/dev/null")
 
 
-announcing_thread = threading.Thread(target = announce)
 last_announcement_time = datetime.datetime.now()
+
+announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
 
 print("message/refresh/online/exit")
