@@ -52,16 +52,17 @@ def announce():
     host_ipv4_network_address = host_ipv4_address[:host_ipv4_address.rfind(".") + 1]
     subnet_digits = int(host_ipv4_address[host_ipv4_address.rfind(".") + 1:])
 
-    for i in range(254):
+    for i in range(10):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.1 {target_ipv4_address} 12345 2>/dev/null")
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 1 {target_ipv4_address} 12345") # 2>/dev/null
 
 
 last_announcement_time = datetime.datetime.now()
+announce()
 
-announcing_thread = threading.Thread(target = announce)
-announcing_thread.start()
+#announcing_thread = threading.Thread(target = announce)
+#announcing_thread.start()
 
 print("message/refresh/online/exit")
 
@@ -74,8 +75,9 @@ while True:
         elapsed_time = datetime.datetime.now() - last_announcement_time
         if elapsed_time > datetime.timedelta(minutes=1):
             last_announcement_time = datetime.datetime.now()
-            announcing_thread = threading.Thread(target=announce)
-            announcing_thread.start()
+            announce()
+            #announcing_thread = threading.Thread(target=announce)
+            #announcing_thread.start()
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
         second_seperator_index = command.find(" ", first_seperator_index + 1)
