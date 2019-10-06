@@ -56,11 +56,12 @@ def announce():
     for i in range(10):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 5 {target_ipv4_address} 12345 2>/dev/null")
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 5 {target_ipv4_address} 12345") #2>/dev/null
 
 
-announcing_thread = threading.Thread(target = announce)
-announcing_thread.start()
+announce()
+#announcing_thread = threading.Thread(target = announce)
+#announcing_thread.start()
 
 while True:
     command = input().strip()
