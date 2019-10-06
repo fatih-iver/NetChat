@@ -10,7 +10,7 @@ os.environ["netchat_port"] = str(port)
 
 
 username = input("Choose a username: ")
-os.environ["netcat_username"] = username
+os.environ["netchat_username"] = username
 
 
 def get_host_ip_address():
