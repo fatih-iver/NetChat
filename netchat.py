@@ -53,15 +53,14 @@ def announce():
     host_ipv4_network_address = host_ipv4_address[:host_ipv4_address.rfind(".") + 1]
     subnet_digits = int(host_ipv4_address[host_ipv4_address.rfind(".") + 1:])
 
-    for i in range(10):
+    for i in range(254):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.4 {target_ipv4_address} 12345") #2>/dev/null
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.2 {target_ipv4_address} 12345 2>/dev/null")
 
 
-announce()
-#announcing_thread = threading.Thread(target = announce)
-#announcing_thread.start()
+announcing_thread = threading.Thread(target = announce)
+announcing_thread.start()
 
 while True:
     command = input().strip()
@@ -69,10 +68,13 @@ while True:
     if command == "exit":
         sys.exit()
     elif command == "online":
+        os.system("> online")
+        announcing_thread = threading.Thread(target=announce)
+        announcing_thread.start()
         os.system("cat online")
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
-        second_seperator_index = command.find(" ", first_seperator_index + 1)
+        second_seperator_index = command.find(" ", first_seperator_igndex + 1)
         target_username = command[first_seperator_index + 1: second_seperator_index]
         message = command[second_seperator_index + 1:]
         for line in open('online'):
