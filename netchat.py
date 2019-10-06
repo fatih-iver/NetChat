@@ -65,7 +65,7 @@ announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
 last_announcement_time = datetime.datetime.now()
 
-print("message/refresh/online/exit")
+print("message/announce/online/exit")
 
 while True:
     command = input().strip()
@@ -81,7 +81,12 @@ while True:
         else:
             print("Rate Limited!")
     elif command == "online":
-        os.system("cat online")
+        online_users = set()
+        for line in open('online'):
+            seperator_index = line.strip().find(":")
+            if seperator_index != -1:
+                online_users.add(line.strip()[:seperator_index])
+        print(list(online_users))
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
         second_seperator_index = command.find(" ", first_seperator_index + 1)
