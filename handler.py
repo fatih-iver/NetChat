@@ -24,7 +24,7 @@ if third_seperator_index == -1:
 
     if command == "announce":
         os.system(f"echo {name}:{ipv4_address} >> online")
-        os.system(f"echo [$netchat_username, $netchat_ipv4, reponse] | ncat --send-only {ipv4_address} $netchat_port 2>/dev/null")
+        os.system(f"echo [$netchat_username, $netchat_ipv4, reponse] | ncat -vvv {ipv4_address} $netchat_port 2>/dev/null")
     elif command == "response":
         os.system(f"echo {name}:{ipv4_address} >> online")
 else:
