@@ -87,10 +87,13 @@ while True:
         second_seperator_index = command.find(" ", first_seperator_index + 1)
         target_username = command[first_seperator_index + 1: second_seperator_index]
         message = command[second_seperator_index + 1:]
+        target_ipv4 = ""
         for line in open('online'):
             line = line.strip()
             if line.startswith(target_username + ":"):
                 target_ipv4 = line[len(target_username)+1:]
-                os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
-                os.system(f"echo $netchat_username:{message} >> chats")
-                break
+
+        if target_ipv4:
+            os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
+            os.system(f"echo $netchat_username:{message} >> chats")
+
