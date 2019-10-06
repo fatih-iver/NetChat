@@ -56,20 +56,12 @@ def announce():
     for i in range(254):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.01 {target_ipv4_address} 12345 2>/dev/null")
-
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.1 {target_ipv4_address} 12345 2>/dev/null")
 
 
 announcing_thread = threading.Thread(target = announce)
 last_announcement_time = datetime.datetime.now()
 announcing_thread.start()
-print("Announcing! Wait.", end="")
-time.sleep(1)
-print(".", end="")
-time.sleep(1)
-print(".", end="")
-time.sleep(1)
-print("Announcing finished!")
 
 print("message/refresh/online/exit")
 
@@ -79,19 +71,11 @@ while True:
     if command == "exit":
         sys.exit()
     elif command == "announce":
-        current_time = datetime.datetime.now()
-        elapsed_time = current_time - last_announcement_time
+        elapsed_time = datetime.datetime.now() - last_announcement_time
         if elapsed_time > datetime.timedelta(minutes=1):
-            announcing_thread = threading.Thread(target=announce)
             last_announcement_time = datetime.datetime.now()
+            announcing_thread = threading.Thread(target=announce)
             announcing_thread.start()
-            print("Announcing! Wait.", end = "")
-            time.sleep(1)
-            print(".", end = "")
-            time.sleep(1)
-            print(".", end = "")
-            time.sleep(1)
-            print("Announcing finished!")
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
         second_seperator_index = command.find(" ", first_seperator_index + 1)
@@ -99,7 +83,7 @@ while True:
         message = command[second_seperator_index + 1:]
         for line in open('online'):
             line = line.strip()
-            if line.startswith(target_username + ":"):
+            if line.startswith(target_userngame + ":"):
                 target_ipv4 = line[len(target_username)+1:]
                 os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
                 os.system(f"echo $netchat_username:{message} >> chats")
