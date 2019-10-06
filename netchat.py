@@ -3,6 +3,7 @@ import socket
 import sys
 import threading
 import time
+import datetime
 
 os.system("> log")
 os.system("> online")
@@ -62,7 +63,7 @@ def announce():
 
 announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
-time.sleep(1)
+last_announcement_time = datetime.datetime.now()
 
 print("message/refresh/online/exit")
 
@@ -71,10 +72,14 @@ while True:
 
     if command == "exit":
         sys.exit()
-    elif command == "refresh":
-        announcing_thread = threading.Thread(target=announce)
-        announcing_thread.start()
-        time.sleep(1)
+    elif command == "announce":
+        if datetime.datetime.now() - last_announcement_time > datetime.timedelta(minutes=1):
+            last_announcement_time = datetime.datetime.now()
+            announcing_thread = threading.Thread(target=announce)
+            announcing_thread.start()
+            time.sleep(1)
+        else:
+            print("Rate Limited!")
     elif command == "online":
         os.system("cat online")
     elif command.startswith("message"):
