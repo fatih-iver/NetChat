@@ -42,11 +42,7 @@ os.environ["netchat_ipv4"] = host_ipv4_address
 
 
 def listen():
-    os.system("sh listenc")
-
-listening_thread = threading.Thread(target = listen)
-listening_thread.start()
-
+    os.system("sh listenc &")
 
 def announce():
     host_ipv4_network_address = host_ipv4_address[:host_ipv4_address.rfind(".") + 1]
@@ -56,7 +52,7 @@ def announce():
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
             print(target_ipv4_address)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -vvv -w 1 {target_ipv4_address} 12345") # 2>/dev/null
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -vvv -w 1 {target_ipv4_address} 12345 &") # 2>/dev/null
 
 
 last_announcement_time = datetime.datetime.now()
