@@ -3,6 +3,7 @@ import socket
 import sys
 import threading
 import time
+import datetime
 
 os.system("> log")
 os.system("> online")
@@ -60,7 +61,9 @@ def announce():
             os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.4 {target_ipv4_address} 12345 2>/dev/null")
 
 
+
 announcing_thread = threading.Thread(target = announce)
+last_announcement_time = datetime.datetime.now()
 announcing_thread.start()
 time.sleep(1)
 
@@ -71,10 +74,16 @@ while True:
 
     if command == "exit":
         sys.exit()
-    elif command == "refresh":
-        announcing_thread = threading.Thread(target=announce)
-        announcing_thread.start()
-        time.sleep(1)
+    elif command == "announce":
+        current_time = datetime.datetime.now()
+        elapsed_time = current_time - last_announcement_time
+        if elapsed_time > datetime.timedelta(minutes=1):
+            announcing_thread = threading.Thread(target=announce)
+            last_announcement_time = datetime.datetime.now()
+            announcing_thread.start()
+            time.sleep(1)
+        else:
+            print("Cannot announce!")
     elif command == "online":
         os.system("cat online")
     elif command.startswith("message"):
@@ -82,10 +91,13 @@ while True:
         second_seperator_index = command.find(" ", first_seperator_index + 1)
         target_username = command[first_seperator_index + 1: second_seperator_index]
         message = command[second_seperator_index + 1:]
+        username_to_ipv4 = {}
         for line in open('online'):
-            line = line.strip()
-            if line.startswith(target_username + ":"):
-                target_ipv4 = line[len(target_username)+1:]
-                os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
-                os.system(f"echo $netchat_username:{message} >> chats")
-                break
+            username_to_ipv4[line.strip().split(":")[0]] = line.strip().split(":")[1]
+        if target_username in username_to_ipv4:
+            target_ipv4 = username_to_ipv4[target_username]
+            os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
+            os.system(f"echo $netchat_username:{message} >> chats")
+            break
+        else:
+            print("No such user exist!")
