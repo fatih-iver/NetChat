@@ -2,6 +2,7 @@ import os
 import socket
 import sys
 import threading
+import time
 
 os.system("> log")
 os.system("> online")
@@ -61,16 +62,19 @@ def announce():
 
 announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
+time.sleep(1)
 
 while True:
     command = input().strip()
 
     if command == "exit":
         sys.exit()
-    elif command == "online":
+    elif command == "refresh":
         os.system("> online")
         announcing_thread = threading.Thread(target=announce)
         announcing_thread.start()
+        time.sleep(1)
+    elif command == "online":
         os.system("cat online")
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
