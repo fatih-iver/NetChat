@@ -32,4 +32,5 @@ else:
 
     if command == "message":
         message = package[third_seperator_index + 2: -1]
-        os.system(f"echo {name}:{message} >> history")
+        os.system(f"echo {name}:{message} >> chats")
+        print(f"\n{name}:{message}\n")

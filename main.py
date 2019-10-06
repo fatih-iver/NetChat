@@ -56,7 +56,7 @@ def announce():
     for i in range(254):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat --send-only {target_ipv4_address} $netchat_port 2>/dev/null")
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat {target_ipv4_address} $netchat_port 2>/dev/null")
 
 
 announcing_thread = threading.Thread(target = announce)
@@ -78,6 +78,6 @@ while True:
         for line in open('online'):
             if line.startswith(target_username + ":"):
                 target_ipv4 = line[len(target_username)+1:]
-                os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat --send-only {target_ipv4} $netchat_port 2>/dev/null")
-                os.system(f"echo $netchat_username:{message} >> history")
+                os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} $netchat_port 2>/dev/null")
+                os.system(f"echo $netchat_username:{message} >> chats")
                 break
