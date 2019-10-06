@@ -3,6 +3,10 @@ import socket
 import sys
 import threading
 
+os.system("> log")
+os.system("> online")
+os.system("> chats")
+
 print("Welcome to NetChat!")
 
 username = input("Choose a username: ")
@@ -57,10 +61,9 @@ def announce():
 
 announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
-print("Started announcing")
 
 while True:
-    command = input("(message/online/exit):").strip()
+    command = input().strip()
 
     if command == "exit":
         break

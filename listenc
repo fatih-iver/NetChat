@@ -3,7 +3,7 @@
 handler()
 {
   read IN
-  echo $IN >> log.txt
+  echo $IN >> log
   python3.7 handler.py "$IN"
 }
 
