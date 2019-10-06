@@ -38,8 +38,6 @@ if not ipv4_address(host_ip_address):
 
 host_ipv4_address = host_ip_address
 
-print("HOST_IPV4_ADDRESS", host_ipv4_address)
-
 os.environ["netchat_ipv4"] = host_ipv4_address
 
 
@@ -58,14 +56,20 @@ def announce():
     for i in range(254):
         if i != subnet_digits:
             target_ipv4_address = host_ipv4_network_address + str(i)
-            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.4 {target_ipv4_address} 12345 2>/dev/null")
+            os.system(f"echo [$netchat_username, $netchat_ipv4, announce] | ncat -w 0.01 {target_ipv4_address} 12345 2>/dev/null")
 
 
 
 announcing_thread = threading.Thread(target = announce)
 last_announcement_time = datetime.datetime.now()
 announcing_thread.start()
+print("Announcing! Wait.", end="")
 time.sleep(1)
+print(".", end="")
+time.sleep(1)
+print(".", end="")
+time.sleep(1)
+print("Announcing finished!")
 
 print("message/refresh/online/exit")
 
@@ -81,7 +85,13 @@ while True:
             announcing_thread = threading.Thread(target=announce)
             last_announcement_time = datetime.datetime.now()
             announcing_thread.start()
+            print("Announcing! Wait.", end = "")
             time.sleep(1)
+            print(".", end = "")
+            time.sleep(1)
+            print(".", end = "")
+            time.sleep(1)
+            print("Announcing finished!")
         else:
             print("Cannot announce!")
     elif command == "online":
