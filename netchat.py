@@ -92,22 +92,15 @@ while True:
             print(".", end = "")
             time.sleep(1)
             print("Announcing finished!")
-        else:
-            print("Cannot announce!")
-    elif command == "online":
-        os.system("cat online")
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
         second_seperator_index = command.find(" ", first_seperator_index + 1)
         target_username = command[first_seperator_index + 1: second_seperator_index]
         message = command[second_seperator_index + 1:]
-        username_to_ipv4 = {}
         for line in open('online'):
-            username_to_ipv4[line.strip().split(":")[0]] = line.strip().split(":")[1]
-        if target_username in username_to_ipv4:
-            target_ipv4 = username_to_ipv4[target_username]
-            os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
-            os.system(f"echo $netchat_username:{message} >> chats")
-            break
-        else:
-            print("No such user exist!")
+            line = line.strip()
+            if line.startswith(target_username + ":"):
+                target_ipv4 = line[len(target_username)+1:]
+                os.system(f"echo [$netchat_username, $netchat_ipv4, message, {message}] | ncat {target_ipv4} 12345 2>/dev/null")
+                os.system(f"echo $netchat_username:{message} >> chats")
+                break
