@@ -47,13 +47,11 @@ def listen():
 
 listening_thread = threading.Thread(target = listen)
 listening_thread.start()
-print("Started listening")
 
 
 def announce():
     host_ipv4_network_address = host_ipv4_address[:host_ipv4_address.rfind(".") + 1]
     subnet_digits = int(host_ipv4_address[host_ipv4_address.rfind(".") + 1:])
-    print("HOST_IPV4_NETWORK_ADDRESS", host_ipv4_network_address)
 
     for i in range(254):
         if i != subnet_digits:
@@ -75,7 +73,7 @@ while True:
     elif command.startswith("message"):
         first_seperator_index = command.find(" ")
         second_seperator_index = command.find(" ", first_seperator_index + 1)
-        target_username = command[first_seperator_index + 1, second_seperator_index]
+        target_username = command[first_seperator_index + 1: second_seperator_index]
         message = command[second_seperator_index + 1:]
         for line in open('online'):
             if line.startswith(target_username + ":"):
