@@ -64,13 +64,14 @@ announcing_thread = threading.Thread(target = announce)
 announcing_thread.start()
 time.sleep(1)
 
+print("message/refresh/online/exit")
+
 while True:
     command = input().strip()
 
     if command == "exit":
         sys.exit()
     elif command == "refresh":
-        os.system("> online")
         announcing_thread = threading.Thread(target=announce)
         announcing_thread.start()
         time.sleep(1)
